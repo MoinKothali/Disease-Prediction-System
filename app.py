@@ -4,10 +4,10 @@ import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
 
-# Load model
+# Load the trained model
 model = joblib.load('disease_prediction_model.pkl')
 
-# Symptom list
+# Symptom List
 symptoms = ['itching', 'skin_rash', 'nodal_skin_eruptions', 'continuous_sneezing', 'shivering', 'chills',
             'joint_pain', 'stomach_pain', 'acidity', 'ulcers_on_tongue', 'muscle_wasting', 'vomiting',
             'burning_micturition', 'spotting_ urination', 'fatigue', 'weight_gain', 'anxiety', 'cold_hands_and_feets',
@@ -34,69 +34,72 @@ symptoms = ['itching', 'skin_rash', 'nodal_skin_eruptions', 'continuous_sneezing
             'silver_like_dusting', 'small_dents_in_nails', 'inflammatory_nails', 'blister', 'red_sore_around_nose',
             'yellow_crust_ooze']
 
-# Streamlit page settings
-st.set_page_config(page_title="Disease Prediction System", page_icon="🩺", layout="wide")
+# Set Streamlit Page Config
+st.set_page_config(page_title="🩺 Disease Prediction System", page_icon="🩺", layout="wide")
 
+# Sidebar
 st.sidebar.title("🔎 Navigation")
 page = st.sidebar.radio("Go to:", ["Home", "Predict Disease", "About"])
 
 # Home Page
 if page == "Home":
     st.title("🩺 Welcome to the Disease Prediction System")
-    st.write("Predict diseases based on symptoms using Machine Learning.")
+    st.write("Predict diseases based on selected symptoms using Machine Learning.")
 
-    # Metrics
     col1, col2, col3 = st.columns(3)
-    col1.metric("Total Symptoms", f"{len(symptoms)}+")
-    col2.metric("Prediction Speed", "Fast ✅")
+    col1.metric("🩺 Total Symptoms", f"{len(symptoms)}+")
+    col2.metric("⚡ Prediction Speed", "Fast")
+    
 
-    st.subheader("How it works:")
+    st.subheader("🚀 How it Works:")
     st.markdown("""
-    - Select your symptoms
-    - Predict top 3 likely diseases
-    - See results with probabilities
+    - Select your symptoms  
+    - Our AI model predicts top 3 most probable diseases  
+    - Results displayed with confidence scores
     """)
+    st.image("https://cdn.pixabay.com/photo/2020/04/10/22/19/health-5021170_960_720.png", use_column_width=True)
 
 # Predict Disease Page
 elif page == "Predict Disease":
-    st.title("🔍 Predict Your Disease")
+    st.title("🔍 Predict Disease from Symptoms")
     selected_symptoms = st.multiselect("✅ Select your symptoms:", symptoms)
 
     if selected_symptoms:
         with st.expander("🔎 View Selected Symptoms"):
             st.write(selected_symptoms)
 
-    if st.button("Predict Disease"):
+    if st.button("🔮 Predict"):
         if not selected_symptoms:
-            st.warning("⚠️ Please select at least one symptom.")
+            st.warning("⚠️ Please select at least one symptom!")
         else:
-            with st.spinner("⏳ Predicting..."):
-                # Progress bar
+            with st.spinner("⏳ Predicting... Please wait..."):
+                # Show progress bar
                 progress = st.progress(0)
-                for percent_complete in range(0, 101, 20):
-                    progress.progress(percent_complete)
-                
+                for i in range(0, 101, 10):
+                    progress.progress(i)
+
+                # Prepare input
                 input_data = [1 if symptom in selected_symptoms else 0 for symptom in symptoms]
                 input_data = np.array(input_data).reshape(1, -1)
 
+                # Predict
                 probs = model.predict_proba(input_data)
                 top3 = np.argsort(probs[0])[-3:][::-1]
                 predicted_classes = model.classes_[top3]
                 probabilities = probs[0][top3]
 
+                # Display results
                 st.success("✅ Prediction Completed!")
                 st.subheader("📈 Prediction Results:")
-
-                # Show metrics
                 for i in range(3):
                     st.metric(label=f"{i+1}. {predicted_classes[i]}", value=f"{probabilities[i]*100:.2f}%")
 
-                # Visualization - Bar Chart
-                st.subheader("🔵 Probability Chart")
+                # Probability Bar Chart
+                st.subheader("📊 Probability Chart")
                 fig, ax = plt.subplots()
                 ax.barh(predicted_classes[::-1], probabilities[::-1], color=['#1f77b4', '#2ca02c', '#ff7f0e'])
-                ax.set_xlabel("Probability")
-                ax.set_xlim(0,1)
+                ax.set_xlabel("Prediction Probability")
+                ax.set_xlim(0, 1)
                 st.pyplot(fig)
 
 # About Page
@@ -104,7 +107,11 @@ elif page == "About":
     st.title("ℹ️ About This Project")
     st.markdown("""
     - **Project:** Disease Prediction Based on Symptoms  
-    - **Developed Using:** Python, Scikit-Learn, Streamlit  
-    - **Goal:** Assist early disease detection using Machine Learning  
-    - **Made With ❤️ for Healthcare Innovation**
+    - **Technology Stack:** Python, Scikit-Learn, Streamlit  
+    - **Purpose:** Early diagnosis support using Machine Learning  
+    - **Developer:** [Your Name]  
+    - **Note:** This tool is for educational purposes and not a substitute for professional medical advice.
     """)
+
+st.sidebar.markdown("---")
+st.sidebar.info("Developed with ❤️ by [Your Name]")
