@@ -57,7 +57,7 @@ if page == "Home":
     - Our AI model predicts top 3 most probable diseases  
     - Results displayed with confidence scores
     """)
-    st.image("https://cdn.pixabay.com/photo/2020/04/10/22/19/health-5021170_960_720.png", use_column_width=True)
+   
 
 # Predict Disease Page
 elif page == "Predict Disease":
@@ -108,10 +108,9 @@ elif page == "About":
     st.markdown("""
     - **Project:** Disease Prediction Based on Symptoms  
     - **Technology Stack:** Python, Scikit-Learn, Streamlit  
-    - **Purpose:** Early diagnosis support using Machine Learning  
-    - **Developer:** [Your Name]  
-    - **Note:** This tool is for educational purposes and not a substitute for professional medical advice.
+    - **Purpose:** Early diagnosis support using Machine Learning   
+     - **Made With ❤️**
     """)
 
 st.sidebar.markdown("---")
-st.sidebar.info("Developed with ❤️ by [Your Name]")
+
