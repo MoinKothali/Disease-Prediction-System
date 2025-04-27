@@ -48,8 +48,7 @@ if page == "Home":
     # Metrics
     col1, col2, col3 = st.columns(3)
     col1.metric("Total Symptoms", f"{len(symptoms)}+")
-    col2.metric("ML Model", "Random Forest")
-    col3.metric("Prediction Speed", "Fast ✅")
+    col2.metric("Prediction Speed", "Fast ✅")
 
     st.subheader("How it works:")
     st.markdown("""
