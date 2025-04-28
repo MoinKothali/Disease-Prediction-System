@@ -68,7 +68,7 @@ elif page == "Predict Disease":
         with st.expander("🔎 View Selected Symptoms"):
             st.write(selected_symptoms)
 
-    if st.button("🔮 Predict"):
+    if st.button("Predict"):
         if not selected_symptoms:
             st.warning("⚠️ Please select at least one symptom!")
         else:
@@ -110,6 +110,7 @@ elif page == "About":
     - **Technology Stack:** Python, Scikit-Learn, Streamlit  
     - **Purpose:** Early diagnosis support using Machine Learning   
      - **Made With ❤️**
+     - **Note:** This tool is for educational purposes and not a substitute for professional medical advice.
     """)
 
 st.sidebar.markdown("---")
